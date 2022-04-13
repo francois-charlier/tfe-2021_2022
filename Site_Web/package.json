@@ -1,0 +1,23 @@
+{
+  "name": "tfe",
+  "version": "1.0.0",
+  "description": "tfe Charlier Francois 2021-2022",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/francois-charlier/tfe-2021_2022.git"
+  },
+  "author": "Francois Charlier",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/francois-charlier/tfe-2021_2022/issues"
+  },
+  "homepage": "https://github.com/francois-charlier/tfe-2021_2022#readme",
+  "dependencies": {
+    "express": "^4.17.3"
+  }
+}

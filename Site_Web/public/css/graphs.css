@@ -1,0 +1,105 @@
+@import url('https://fonts.googleapis.com/css?family=Poppins:400,500,600,700&display=swap');
+
+html,body {
+    height: 100%;
+    width: 100%;
+    place-items: center;
+    background: -webkit-linear-gradient(left, #fec89a, #f8edeb);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
+
+html {
+    overflow-x: hidden;
+}
+
+#date {
+    padding-left: 15px;
+    padding-right: 15px;
+    border-radius: 5px;
+    display: flex;
+    width: 16%;
+    margin-top: 2%;
+    margin-left: 2%;
+}
+
+#date p {
+    font-size: 30px;
+    font-weight: 600;
+    text-align: center;
+}
+
+#container {
+    padding: 5%;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 50px;
+}
+
+.data_widget {
+    height: 250px;
+    background: #fff;
+    padding-top: 5%;
+    border-radius: 5px;
+    box-shadow: 0px 15px 20px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+.data_widget:hover {
+    box-shadow: 0px 15px 20px rgba(0, 0, 0, 0.3);
+}
+
+.data_widget p {
+    font-size: 30px;
+    margin-bottom: 5%;
+}
+
+.data_widget:last-child {
+    grid-column: 2/2;
+}
+
+.modals-layout {
+    background-color: rgba(0, 0, 0, 0.3);
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    display: flex;
+    padding-top: 5%;
+    padding-bottom: 5%;
+    justify-content: center;
+    opacity: 0;
+    pointer-events: none;
+}
+
+.modal {
+    background-color: #fff;
+    width: 1200px;
+    max-width: 100%;
+    padding: 30px 50px;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    text-align: center;
+}
+
+.modal p {
+    margin-top: 1%;
+}
+
+.modals-layout.show {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+ion-icon {
+    color: red;
+    font-size: 35px;
+    display: flex;
+    text-align: right;
+}
