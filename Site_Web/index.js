@@ -11,8 +11,8 @@ app.get('/', function (req, res) {
     res.sendFile('/pages/index.html', { root: __dirname })
 })
 
-app.get('/graphs', function (req, res) {
-    res.sendFile('/pages/graphs.html', { root: __dirname })
+app.get('/home', function (req, res) {
+    res.sendFile('/pages/home.html', { root: __dirname })
 })
 
 app.use('/api/data', graph)

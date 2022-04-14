@@ -28,3 +28,5 @@ router.get("/interrupteur", (req, res) => {
 router.get("/humiditeSol", (req, res) => {
 
 })
+
+module.exports = router

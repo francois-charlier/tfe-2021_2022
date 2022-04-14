@@ -18,6 +18,7 @@
   },
   "homepage": "https://github.com/francois-charlier/tfe-2021_2022#readme",
   "dependencies": {
+    "chart.js": "^3.7.1",
     "express": "^4.17.3"
   }
 }

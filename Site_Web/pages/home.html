@@ -6,9 +6,13 @@
 
     <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
     <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.7.1/chart.min.js"
+        integrity="sha512-QSkVNOCYLtj73J4hbmVoOV6KVZuMluZlioC+trLpewV8qMjsWqlIQvkn1KGX2StWvPMdWGBqim1xlC8krl1EKQ=="
+        crossorigin="anonymous" referrerpolicy="no-referrer">
+    </script>
 
-    <link rel="stylesheet" href="../css/graphs.css">
-    <script src="../js/graphs.js"></script>
+    <link rel="stylesheet" href="../css/home.css">
+    <script src="../js/home.js"></script>
 
     <title>Graphiques</title>
 </head>
@@ -19,24 +23,31 @@
     <div id="container">
         <div class="data_widget">
             <p class="temp">Température</p>
+            <p id="temp-data" class="sensor-data"></p>
         </div>
         <div class="data_widget">
             <p class="press">Pression Atmosphérique</p>
+            <p id="press-data" class="sensor-data"></p>
         </div>
         <div class="data_widget">
             <p class="hum_air">Humidité</p>
+            <p id="hum-data" class="sensor-data"></p>
         </div>
         <div class="data_widget">
             <p class="lum">Luminosité</p>
+            <p id="lum-data" class="sensor-data"></p>
         </div>
         <div class="data_widget">
             <p class="dist">Distance</p>
+            <p id="dist-data" class="sensor-data"></p>
         </div>
         <div class="data_widget">
-            <p class="water">Besoin d'Eau</p>
+            <p class="eau">Besoin d'Eau</p>
+            <p id="eau-data" class="sensor-data"></p>
         </div>
         <div class="data_widget">
             <p class="switch">Interrupteur</p>
+            <p id="interupt-data" class="sensor-data"></p>
         </div>
     </div>
     <div id="modal_container">
@@ -75,7 +86,7 @@
         </div>
     </div>
     <div id="modal_container">
-        <div id="water" class="modals-layout">
+        <div id="eau" class="modals-layout">
             <div class="modal">
                 <ion-icon name="close-circle-outline"></ion-icon>
             </div>
