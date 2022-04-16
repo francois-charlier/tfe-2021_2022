@@ -50,35 +50,28 @@ function onLoad() {
             onpenModal(i.children[0].className)
         })
     })
+    
+    const socket = io();
 
-    data = {
-        "temperature": 20.5,
-        "lux": 78,
-        "pression": 998,
-        "humidity": 42,
-        "distance": 8.24,
-        "hum_sol": 1,
-        "interrupteur": 0,
-        "date": "13-04-2022 15h02"
-    }
-
-    const temperature = document.getElementById("temp-data");
-    temperature.innerHTML = data.temperature + " °C";
-    const humidite = document.getElementById("hum-data");
-    humidite.innerHTML = data.humidity + " %";
-    const luminosite = document.getElementById("lum-data");
-    luminosite.innerHTML = data.lux + " lux";
-    const pression = document.getElementById("press-data");
-    pression.innerHTML = data.pression + " hpa";
-    const distance = document.getElementById("dist-data");
-    distance.innerHTML = data.distance + " cm";
-    const besoinEau = document.getElementById("eau-data");
-    if (data.hum_sol) { besoinEau.innerHTML = "Oui"; besoinEau.style.color = "#70e000";}
-    else { besoinEau.innerHTML = "Non"; besoinEau.style.color = "#ff0a54";}
-    const interrupteur = document.getElementById("interupt-data");
-    if (data.interrupteur) { interrupteur.innerHTML = "On"; interrupteur.style.color = "#70e000"; }
-    else { interrupteur.innerHTML = "Off"; interrupteur.style.color = "#ff0a54";}
-    const date = document.getElementById("date");
-    date.innerHTML = "<p>"+ data.date +"</p>"
+    socket.on("data-send", function(data) {
+        const temperature = document.getElementById("temp-data");
+        temperature.innerHTML = data.temperature + " °C";
+        const humidite = document.getElementById("hum-data");
+        humidite.innerHTML = data.humidity + " %";
+        const luminosite = document.getElementById("lum-data");
+        luminosite.innerHTML = data.lux + " lux";
+        const pression = document.getElementById("press-data");
+        pression.innerHTML = data.pression + " hpa";
+        const distance = document.getElementById("dist-data");
+        distance.innerHTML = data.distance + " cm";
+        const besoinEau = document.getElementById("eau-data");
+        if (data.hum_sol) { besoinEau.innerHTML = "Oui"; besoinEau.style.color = "#70e000"; }
+        else { besoinEau.innerHTML = "Non"; besoinEau.style.color = "#ff0a54"; }
+        const interrupteur = document.getElementById("interupt-data");
+        if (data.interrupteur) { interrupteur.innerHTML = "On"; interrupteur.style.color = "#70e000"; }
+        else { interrupteur.innerHTML = "Off"; interrupteur.style.color = "#ff0a54"; }
+        const date = document.getElementById("date");
+        date.innerHTML = "<p>" + data.date + "</p>"
+    })
 
 }
