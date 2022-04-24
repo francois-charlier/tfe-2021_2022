@@ -1,0 +1,94 @@
+@import url('https://fonts.googleapis.com/css?family=Poppins:400,500,600,700&display=swap');
+
+.alert-succes{
+  background: #b9fbc0;
+  padding: 20px 40px;
+  min-width: 420px;
+  position: absolute;
+  right: 0;
+  top: 10px;
+  border-radius: 4px;
+  border-left: 8px solid #99d98c;
+  overflow: hidden;
+  opacity: 0;
+  pointer-events: none;
+}
+.alert-error {
+    background: #ffcfd2;
+    padding: 20px 40px;
+    min-width: 420px;
+    position: absolute;
+    right: 0;
+    top: 10px;
+    border-radius: 4px;
+    border-left: 8px solid #f94144;
+    overflow: hidden;
+    opacity: 0;
+    pointer-events: none;
+}
+.alert.showAlert{
+  opacity: 1;
+  pointer-events: auto;
+}
+.alert.show{
+  animation: show_slide 1s ease forwards;
+}
+@keyframes show_slide {
+  0%{
+    transform: translateX(100%);
+  }
+  40%{
+    transform: translateX(-10%);
+  }
+  80%{
+    transform: translateX(0%);
+  }
+  100%{
+    transform: translateX(-10px);
+  }
+}
+.alert.hide{
+  animation: hide_slide 1s ease forwards;
+}
+@keyframes hide_slide {
+  0%{
+    transform: translateX(-10px);
+  }
+  40%{
+    transform: translateX(0%);
+  }
+  80%{
+    transform: translateX(-10%);
+  }
+  100%{
+    transform: translateX(100%);
+  }
+}
+.alert-succes .exclamation-symbole{
+  position: absolute;
+  left: 20px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #99d98c;
+  font-size: 30px;
+}
+.alert-succes .msg-succes{
+  padding: 0 20px;
+  font-size: 18px;
+  color: #76c893;
+}
+
+.alert-error .exclamation-symbole {
+    position: absolute;
+    left: 20px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #f94144;
+    font-size: 30px;
+}
+
+.alert-error .msg-succes {
+    padding: 0 20px;
+    font-size: 18px;
+    color: #ffcfd2;
+}
