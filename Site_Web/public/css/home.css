@@ -18,17 +18,57 @@ html {
     overflow-x: hidden;
 }
 
-#date {
-    padding-left: 15px;
-    padding-right: 15px;
-    border-radius: 5px;
+#topbar {
+    padding-left: 3%;
+    padding-right: 3%;
     display: flex;
-    width: 16%;
     margin-top: 2%;
-    margin-left: 2%;
+    justify-content: space-between;
 }
 
-#date p {
+#btn-home{
+    display: flex;
+    justify-content: flex-end;
+    margin-right: 2%;
+}
+
+#btn-topbar {
+    display: flex;
+    justify-content: space-between;
+    width: 20%;
+}
+
+#btn-topbar button {
+    padding: 5%;
+    border-radius: 10px;
+}
+
+#btn-topbar button:hover {
+    box-shadow: 0px 15px 20px rgba(0, 0, 0, 0.2);
+}
+
+#btn-logout{
+    background-color: #f28482;
+    border: 2px solid #e5383b;
+    box-shadow: 0px 15px 20px rgba(0, 0, 0, 0.1);
+}
+
+#btn-logout:active{
+    background-color: #ed6c6a;
+}
+
+#btn-capteur {
+    background-color: #caffbf;
+    border: 2px solid #99d98c;
+    box-shadow: 0px 15px 20px rgba(0, 0, 0, 0.1);
+}
+
+#btn-capteur:active {
+    background-color: #caffbf;
+}
+
+
+#topbar p {
     font-size: 30px;
     font-weight: 600;
     text-align: center;

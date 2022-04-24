@@ -71,7 +71,19 @@ function onLoad() {
         if (data.interrupteur) { interrupteur.innerHTML = "On"; interrupteur.style.color = "#70e000"; }
         else { interrupteur.innerHTML = "Off"; interrupteur.style.color = "#ff0a54"; }
         const date = document.getElementById("date");
-        date.innerHTML = "<p>" + data.date + "</p>"
+        date.innerText = data.date
     })
 
+}
+
+function logout() {
+    axios.get('/logout')
+        .then(function (response) {
+            if (response.data == 'succes') {
+                window.location.replace("/")
+            }
+        })
+        .catch(function (error) {
+            console.log(error);
+        })
 }

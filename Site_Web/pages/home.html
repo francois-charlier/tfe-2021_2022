@@ -10,6 +10,7 @@
         integrity="sha512-QSkVNOCYLtj73J4hbmVoOV6KVZuMluZlioC+trLpewV8qMjsWqlIQvkn1KGX2StWvPMdWGBqim1xlC8krl1EKQ=="
         crossorigin="anonymous" referrerpolicy="no-referrer">
     </script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <script src="/socket.io/socket.io.js"></script>
     <link rel="stylesheet" href="../css/home.css">
     <script src="../js/home.js"></script>
@@ -17,8 +18,12 @@
     <title>Graphiques</title>
 </head>
 <body onload="onLoad()">
-    <div id="date">
-        <p></p>
+    <div id="topbar">
+        <p id="date"></p>
+        <div id="btn-topbar">
+            <button id="btn-capteur">Ajouter un capteur</button>
+            <button id="btn-logout" onclick="logout()">Logout</button>
+        </div>
     </div>
     <div id="container">
         <div class="data_widget">
@@ -50,49 +55,49 @@
             <p id="interupt-data" class="sensor-data"></p>
         </div>
     </div>
-    <div id="modal_container">
+    <div>
         <div id="temp" class="modals-layout">
             <div class="modal">
                 <ion-icon name="close-circle-outline"></ion-icon>
             </div>
         </div>
     </div>
-    <div id="modal_container">
+    <div>
         <div id="press" class="modals-layout">
             <div class="modal">
                 <ion-icon name="close-circle-outline"></ion-icon>   
             </div>
         </div>
     </div>
-    <div id="modal_container">
+    <div>
         <div id="hum_air" class="modals-layout">
             <div class="modal">
                 <ion-icon name="close-circle-outline"></ion-icon>
             </div>
         </div>
     </div>
-    <div id="modal_container">
+    <div>
         <div id="lum" class="modals-layout">
             <div class="modal">
                 <ion-icon name="close-circle-outline"></ion-icon>
             </div>
         </div>
     </div>
-    <div id="modal_container">
+    <div>
         <div id="dist" class="modals-layout">
             <div class="modal">
                 <ion-icon name="close-circle-outline"></ion-icon>
             </div>
         </div>
     </div>
-    <div id="modal_container">
+    <div>
         <div id="eau" class="modals-layout">
             <div class="modal">
                 <ion-icon name="close-circle-outline"></ion-icon>
             </div>
         </div>
     </div>
-    <div id="modal_container">
+    <div>
         <div id="switch" class="modals-layout">
             <div class="modal">
                 <ion-icon name="close-circle-outline"></ion-icon>

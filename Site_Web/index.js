@@ -44,11 +44,32 @@ app.get('/authentification', function (req, res) {
     res.sendFile('/pages/index.html', { root: __dirname })
 })
 
+app.get('/logout', function (req, res) {
+    res.clearCookie('token')
+    res.end("succes")
+})
+
 app.use('/api/data', graph)
 
 app.use('/api', user)
 
 app.get('/test', function (req, res) {
+    data = {
+        "temperature": 13.5,
+        "lux": 19273,
+        "pression": 1016,
+        "humidity": 81,
+        "distance": 11.29,
+        "hum_sol": 0,
+        "interrupteur": 1,
+        "date": "15-02-2022 12h09"
+    }
+    //envois vers la db
+    io.emit("data-send", data);
+})
+
+io.on("connection", (socket) => {
+    console.log("User join");
     data = {
         "temperature": 20.5,
         "lux": 78,
@@ -59,12 +80,8 @@ app.get('/test', function (req, res) {
         "interrupteur": 0,
         "date": "13-04-2022 15h02"
     }
-    //envois vers la db
-    io.emit("data-send", data);
-})
 
-io.on("connection", (socket) => {
-    console.log("User join");
+    io.emit("data-send", data);
     socket.on('disconnect', () => {
         console.log('user disconnected');
     });

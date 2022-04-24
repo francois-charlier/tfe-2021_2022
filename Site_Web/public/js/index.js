@@ -85,6 +85,7 @@ function onLoad() {
                     }
                     else {
                         clearSignup()
+                        document.querySelector(".msg-error").innerHTML = "Champ Invalide"
                         showAlert(".alert-error")
                     }
                 })
@@ -115,6 +116,7 @@ function onLoad() {
                 .then(function (response) {
                     if(response.data == "error") {
                         clearLogin()
+                        document.querySelector(".msg-error").innerHTML = "Mauvais identifiants"
                         showAlert(".alert-error")
                     }
                     else if(response.data == "succes") {
