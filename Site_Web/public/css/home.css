@@ -77,8 +77,9 @@ html {
 #container {
     padding: 5%;
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(auto-fill, 30%);
     gap: 50px;
+    justify-content: space-between;
 }
 
 .data_widget {
@@ -97,10 +98,6 @@ html {
 .data_widget p:first-child {
     font-size: 30px;
     margin-bottom: 5%;
-}
-
-.data_widget:last-child {
-    grid-column: 2/2;
 }
 
 .modals-layout {

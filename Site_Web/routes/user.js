@@ -5,7 +5,6 @@ const path = require('path')
 var bodyParser = require('body-parser')
 const argon2 = require('argon2');
 const pool = require('../helpers/database')
-require("dotenv").config();
 const router = express.Router()
 
 require('dotenv').config({ path: path.resolve(__dirname, '../.env') })

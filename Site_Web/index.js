@@ -1,14 +1,19 @@
 const express = require('express')
 const jwt = require("jsonwebtoken")
 const app = express()
+const dayjs = require('dayjs')
 const path = require('path')
 const graph = require('./routes/api-graph.js')
 const user = require('./routes/user.js')
 const http = require('http');
 const server = http.createServer(app);
 const { Server } = require("socket.io");
-const { json } = require('body-parser')
+var bodyParser = require('body-parser')
+const pool = require('./helpers/database.js')
+const e = require('express')
 const io = new Server(server);
+
+var jsonParser = bodyParser.json()
 
 const port = 8000
 require('dotenv').config({ path: path.resolve(__dirname, '.env') })
@@ -53,34 +58,64 @@ app.use('/api/data', graph)
 
 app.use('/api', user)
 
-app.get('/test', function (req, res) {
-    data = {
-        "temperature": 13.5,
-        "lux": 19273,
-        "pression": 1016,
-        "humidity": 81,
-        "distance": 11.29,
-        "hum_sol": 0,
-        "interrupteur": 1,
-        "date": "15-02-2022 12h09"
+app.post('/api/proximus', jsonParser, function (req, res) {
+    if (req.header("token") === process.env.PROXIMUS_TOKEN){
+        console.log(req.body)
+        io.emit("data-send", req.body);
+        res.status(200).end()
     }
-    //envois vers la db
-    io.emit("data-send", data);
+    else{
+        res.status(401).end()
+    }
 })
 
-io.on("connection", (socket) => {
+io.on("connection", async (socket) => {
     console.log("User join");
-    data = {
-        "temperature": 20.5,
-        "lux": 78,
-        "pression": 998,
-        "humidity": 42,
-        "distance": 8.24,
-        "hum_sol": 1,
-        "interrupteur": 0,
-        "date": "13-04-2022 15h02"
-    }
 
+    const table_name = ["temperature", "humidite", "humidite_sol", "interrupteur", "luminosite", "pression", "distance"];
+    let sql = "";
+    table_name.forEach(i => {
+        if(i == "interrupteur" || i == "humidite_sol"){
+            sql += `
+            SELECT ` + i + `.valeur AS ` + i +
+            ` FROM ` + i +
+            ` WHERE ` + i + `.id_mesure = (SELECT id_mesure FROM mesures
+            WHERE DATE IN (SELECT MAX(DATE) FROM mesures));
+            `;
+        }
+        else {
+            sql += `
+            SELECT ` + i + `.valeur AS ` + i + ` , unites.symbole
+            FROM ` + i +
+                    ` JOIN unites ON unites.id_unite = ` + i + `.id_unite
+            WHERE ` + i + `.id_mesure = (SELECT id_mesure FROM mesures
+            WHERE DATE IN (SELECT MAX(DATE) FROM mesures));
+            `;
+        }
+    })
+    sql += `
+    SELECT mesures.date FROM mesures
+    WHERE mesures.id_mesure = (SELECT id_mesure FROM mesures
+    WHERE DATE IN (SELECT MAX(DATE) FROM mesures));
+    `;
+    const result = await pool.query(sql);
+    const data = {};
+    result.forEach(i =>{
+        if (i[0] != undefined) { 
+            let keys = Object.keys(i[0]);
+            if (keys.length == 2){
+                data[Object.keys(i[0])[0]] = (i[0][keys[0]] + " " + i[0][keys[1]])
+            }
+            else if (keys[0] == "date"){
+                data[Object.keys(i[0])[0]] = new Date(i[0]["date"]).toLocaleString("fr-BE",  {dateStyle: "short", timeStyle: "short"})
+                .replace(":", "h")
+                .replaceAll("/", "-")
+            }
+            else{
+                data[Object.keys(i[0])[0]] = i[0][keys[0]]
+            }
+        }
+    })
     io.emit("data-send", data);
     socket.on('disconnect', () => {
         console.log('user disconnected');
