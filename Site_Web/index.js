@@ -58,9 +58,71 @@ app.use('/api/data', graph)
 
 app.use('/api', user)
 
-app.post('/api/proximus', jsonParser, function (req, res) {
+app.post('/api/proximus', jsonParser, async function (req, res) {
     if (req.header("token") === process.env.PROXIMUS_TOKEN){
-        console.log(req.body)
+        let cle = Object.keys(req.body);
+        let sql = `
+            INSERT INTO mesures (date) VALUES (NOW());
+        `;
+        cle.forEach(i => {
+            switch(i){
+                case ("temperature"):
+                    sql += `
+                        INSERT INTO temperature (valeur, id_mesure, id_unite) VALUES (` + String(req.body[i]) +`, (SELECT id_mesure FROM mesures
+                        WHERE DATE IN (SELECT MAX(DATE) FROM mesures)), (SELECT id_unite FROM unites WHERE symbole = '°C'));
+                    `;
+                    req.body["temperature"] += " °C";
+                    break;
+                case ("humidite"):
+                    sql += `
+                        INSERT INTO humidite (valeur, id_mesure, id_unite) VALUES (` + String(req.body[i]) + `, (SELECT id_mesure FROM mesures
+                        WHERE DATE IN (SELECT MAX(DATE) FROM mesures)), (SELECT id_unite FROM unites WHERE symbole = '%'));
+                    `;
+                    req.body["humidite"] += " %";
+                    break;
+                case ("humidite_sol"):
+                    sql += `
+                        INSERT INTO humidite_sol (valeur, id_mesure) VALUES (` + String(req.body[i]) + `, (SELECT id_mesure FROM mesures
+                        WHERE DATE IN (SELECT MAX(DATE) FROM mesures)));
+                    `;
+                    break;
+                case ("interrupteur"):
+                    sql += `
+                        INSERT INTO interrupteur (valeur, id_mesure) VALUES (` + String(req.body[i]) + `, (SELECT id_mesure FROM mesures
+                        WHERE DATE IN (SELECT MAX(DATE) FROM mesures)));
+                    `;
+                    break;
+                case ("distance"):
+                    sql += `
+                        INSERT INTO distance (valeur, id_mesure, id_unite) VALUES (` + String(req.body[i]) + `, (SELECT id_mesure FROM mesures
+                        WHERE DATE IN (SELECT MAX(DATE) FROM mesures)), (SELECT id_unite FROM unites WHERE symbole = 'cm'));
+                    `;
+                    req.body["distance"] += " cm";
+                    break;
+                case ("luminosite"):
+                    sql += `
+                        INSERT INTO luminosite (valeur, id_mesure, id_unite) VALUES (` + String(req.body[i]) + `, (SELECT id_mesure FROM mesures
+                        WHERE DATE IN (SELECT MAX(DATE) FROM mesures)), (SELECT id_unite FROM unites WHERE symbole = 'lx'));
+                    `;
+                    req.body["luminosite"] += " lx";
+                    break;
+                case ("pression"):
+                    sql += `
+                        INSERT INTO pression (valeur, id_mesure, id_unite) VALUES (` + String(req.body[i]) + `, (SELECT id_mesure FROM mesures
+                        WHERE DATE IN (SELECT MAX(DATE) FROM mesures)), (SELECT id_unite FROM unites WHERE symbole = 'hPa'));
+                    `;
+                    req.body["pression"] += " hPa";
+                    break;
+            }
+        })
+        sql += `
+            SELECT date FROM mesures
+            WHERE DATE IN (SELECT MAX(DATE) FROM mesures);
+        `;
+        let result = await pool.query(sql);
+        req.body.date = new Date(result[result.length - 1][0]["date"]).toLocaleString("fr-BE", { dateStyle: "short", timeStyle: "short" })
+        .replace(":", "h")
+        .replaceAll("/", "-")
         io.emit("data-send", req.body);
         res.status(200).end()
     }
@@ -123,5 +185,5 @@ io.on("connection", async (socket) => {
 })
 
 server.listen(port, () => {
-    console.log(`Listening on port ${port}`);
+    console.log(`Listening on port ${port}, visit http://localhost:${port}`);
 });

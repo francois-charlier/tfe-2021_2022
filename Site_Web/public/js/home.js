@@ -76,7 +76,6 @@ function onLoad() {
             document.getElementById(dataConrespond[e][0]).parentNode.removeChild(document.getElementById(dataConrespond[e][0]))
         })
 
-        console.log(difference);
 
         Object.keys(data).forEach(i => {
             if(i == "date"){
