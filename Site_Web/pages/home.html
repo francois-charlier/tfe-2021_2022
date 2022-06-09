@@ -21,7 +21,7 @@
     <div id="topbar">
         <p id="date"></p>
         <div id="btn-topbar">
-            <button id="btn-capteur">Ajouter un capteur</button>
+            <button id="btn-capteur" onclick="addCapteur()">Ajouter un capteur</button>
             <button id="btn-logout" onclick="logout()">Logout</button>
         </div>
     </div>
@@ -29,6 +29,50 @@
     </div>
     <div id="modal-container">
         
+    </div>
+    <div id="add-capteur">
+        <div id="modal-add-capteur">
+            <ion-icon name="close-circle-outline"></ion-icon>
+            <div id="list-switch">
+
+                <h2>Distance</h2>
+                <label class="switch">
+                    <input type="checkbox" name="distance">
+                    <span class="slide"></span>
+                </label><br>
+
+                <h2>Luminosité</h2>
+                <label class="switch">
+                    <input type="checkbox" name="luminosite">
+                    <span class="slide"></span>
+                </label><br>
+
+                <h2>Pression</h1>
+                <label class="switch">
+                    <input type="checkbox" name="pression">
+                    <span class="slide"></span>
+                </label><br>
+
+                <h2>Humidité Sol</h1>
+                <label class="switch">
+                    <input type="checkbox" name="humidite_sol">
+                    <span class="slide"></span>
+                </label><br>
+                
+                <h2>Température</h1>
+                <label class="switch">
+                    <input type="checkbox" name="temperature">
+                    <span class="slide"></span>
+                </label><br>
+
+                <h2>Humidité</h1>
+                <label class="switch">
+                    <input type="checkbox" name="humidite">
+                    <span class="slide"></span>
+                </label><br>
+                <button id="validate-add-capteur" onclick="valideCapteurs()">Valider</button>
+            </div>
+        </div>
     </div>
 </body>
 </html>

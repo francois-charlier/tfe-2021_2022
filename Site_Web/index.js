@@ -86,12 +86,6 @@ app.post('/api/proximus', jsonParser, async function (req, res) {
                         WHERE DATE IN (SELECT MAX(DATE) FROM mesures)));
                     `;
                     break;
-                case ("interrupteur"):
-                    sql += `
-                        INSERT INTO interrupteur (valeur, id_mesure) VALUES (` + String(req.body[i]) + `, (SELECT id_mesure FROM mesures
-                        WHERE DATE IN (SELECT MAX(DATE) FROM mesures)));
-                    `;
-                    break;
                 case ("distance"):
                     sql += `
                         INSERT INTO distance (valeur, id_mesure, id_unite) VALUES (` + String(req.body[i]) + `, (SELECT id_mesure FROM mesures
@@ -134,10 +128,10 @@ app.post('/api/proximus', jsonParser, async function (req, res) {
 io.on("connection", async (socket) => {
     console.log("User join");
 
-    const table_name = ["temperature", "humidite", "humidite_sol", "interrupteur", "luminosite", "pression", "distance"];
+    const table_name = ["temperature", "humidite", "humidite_sol", "luminosite", "pression", "distance"];
     let sql = "";
     table_name.forEach(i => {
-        if(i == "interrupteur" || i == "humidite_sol"){
+        if(i == "humidite_sol"){
             sql += `
             SELECT ` + i + `.valeur AS ` + i +
             ` FROM ` + i +

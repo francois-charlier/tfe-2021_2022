@@ -1,5 +1,7 @@
 function onLoad() {
 
+    console.log("Home page");
+
     const onpenModal = function(i, e) {
         let modal = document.getElementById(i);
         let btn_modal = document.getElementsByClassName(i);
@@ -55,7 +57,6 @@ function onLoad() {
         "temperature": ["temp", "Température"],
         "pression": ["press", "Pression Atmosphérique"],
         "humidite": ["hum", "Humidité"],
-        "interrupteur": ["switch", "Interrupteur"],
         "luminosite": ["lum", "Luminosité"],
         "distance": ["dist", "Distance"],
         "humidite_sol": ["eau", "Besoin d'Eau"]
@@ -96,7 +97,7 @@ function onLoad() {
                     `;
                 document.getElementById("container").innerHTML +=
                     `
-                    <div class="data_widget" id="` + i + `">
+                    <div class="data_widget" id="` + i + `" hidden>
                         <p class="` + dataConrespond[i][0] + `">` + dataConrespond[i][1] + `</p>
                         <p id="` + dataConrespond[i][0] + `-data" class="sensor-data">` + data[i] + `</p>
                     </div>
@@ -107,27 +108,38 @@ function onLoad() {
         const besoinEau = document.getElementById("eau-data");
         if (data.humidite_sol == "1" && besoinEau != undefined) { besoinEau.innerHTML = "Oui"; besoinEau.style.color = "#70e000"; }
         else if (besoinEau != undefined) { besoinEau.innerHTML = "Non"; besoinEau.style.color = "#ff0a54"; }
-        const interrupteur = document.getElementById("switch-data");
-        if (data.interrupteur == "1" && interrupteur != undefined) { interrupteur.innerHTML = "On"; interrupteur.style.color = "#70e000"; }
-        else if (interrupteur != undefined) { interrupteur.innerHTML = "Off"; interrupteur.style.color = "#ff0a54"; }
-
         const widgets = document.querySelectorAll(".data_widget");
 
         if (widgets.length != 0){
             widgets.forEach(i => {
                 i.addEventListener("click", function (e) {
                     e.preventDefault();
-                    console.log(i.children[0].className)
                     onpenModal(i.children[0].className, i.children[0].className)
                 })
             })
         }
+
+        let saveCapteurs = JSON.parse(localStorage.getItem("capteurs"));
+        saveCapteurs.forEach((e) => {
+            if (document.getElementById(e)) {
+                document.getElementById(e).hidden = false;
+            }
+        })
+
     })
+
+    let saveCapteurs = JSON.parse(localStorage.getItem("capteurs"));
+    saveCapteurs.forEach((e) => {
+        document.getElementsByName(e)[0].checked = true;
+        if(document.getElementById(e)){
+            document.getElementById(e).hidden = false;
+        }
+    })
+
 }
 
 function logout() {
     const socket = io()
-    socket.emit("data-send", "GGGG")
     axios.get('/logout')
         .then(function (response) {
             if (response.data == 'succes') {
@@ -137,4 +149,36 @@ function logout() {
         .catch(function (error) {
             console.log(error);
         })
+}
+
+function addCapteur() {
+    document.getElementById("add-capteur").classList.add("show");
+    close_btn = document.getElementById("modal-add-capteur").children[0]
+    close_btn.addEventListener("click", () => {
+        document.getElementById("add-capteur").classList.remove("show");
+        document.documentElement.style.overflow = 'auto';
+
+        let switchs = document.querySelectorAll("input[type=checkbox]");
+        switchs.forEach((e) => {
+            e.checked = false;
+        })
+
+        let saveCapteurs = JSON.parse(localStorage.getItem("capteurs"));
+        saveCapteurs.forEach((e) => {
+            document.getElementsByName(e)[0].checked = true;
+        })
+    })
+}
+
+function valideCapteurs() {
+    let switchs = document.querySelectorAll("input[type=checkbox]");
+    let save = [];
+
+    switchs.forEach((e)=>{
+        if(e.checked){
+            save.push(e.name);
+        }
+    })
+    localStorage.setItem("capteurs", JSON.stringify(save));
+    window.location.reload();
 }

@@ -35,9 +35,6 @@ router.get("/:type?", async (req, res) => {
         case "eau":
             res.send(await getData("humidite_sol"))
             break;
-        case "switch":
-            res.send(await getData("interrupteur"))
-            break;
         case "press":
             res.send(await getData("pression"))
             break;
